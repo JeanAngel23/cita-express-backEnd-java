@@ -2,7 +2,7 @@ FROM openjdk:11-jre-slim
 
 WORKDIR /app
 
-COPY target/citaexpress.jar /app/citaexpress.jar
+COPY out/artifacts/citaexpress_jar/demo.jar /app/citaexpress.jar
 
 EXPOSE 8080
 
