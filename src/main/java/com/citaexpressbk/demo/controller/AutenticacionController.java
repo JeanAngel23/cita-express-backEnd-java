@@ -2,8 +2,8 @@ package com.citaexpressbk.demo.controller;
 
 import com.citaexpressbk.demo.client.users.DatosAutenticacionUsuario;
 import com.citaexpressbk.demo.client.users.Usuario;
-import com.citaexpressbk.demo.security.DatosJWT;
-import com.citaexpressbk.demo.security.TokenService;
+import com.citaexpressbk.demo.infra.security.DatosJWT;
+import com.citaexpressbk.demo.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

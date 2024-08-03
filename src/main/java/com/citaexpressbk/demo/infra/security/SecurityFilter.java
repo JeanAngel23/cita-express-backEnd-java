@@ -1,4 +1,4 @@
-package com.citaexpressbk.demo.security;
+package com.citaexpressbk.demo.infra.security;
 
 import com.citaexpressbk.demo.client.users.UsuarioRepository;
 import jakarta.servlet.FilterChain;

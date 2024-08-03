@@ -1,4 +1,4 @@
-package com.citaexpressbk.demo.infra;
+package com.citaexpressbk.demo.infra.errors;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;

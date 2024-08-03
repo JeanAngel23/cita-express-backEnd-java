@@ -1,4 +1,4 @@
-package com.citaexpressbk.demo.security;
+package com.citaexpressbk.demo.infra.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

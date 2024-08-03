@@ -1,4 +1,4 @@
-package com.citaexpressbk.demo.security;
+package com.citaexpressbk.demo.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
