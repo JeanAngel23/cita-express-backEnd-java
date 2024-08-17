@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record DatosRegister(
+public record DataRegisterClient(
         @NotBlank(message = "El nombre del usuario es obligatorio")
         String nombre,
         @NotBlank

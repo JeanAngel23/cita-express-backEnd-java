@@ -1,5 +1,7 @@
-package com.citaexpressbk.demo.client;
+package com.citaexpressbk.demo.domain.entity;
 
+import com.citaexpressbk.demo.client.DataRegisterClient;
+import com.citaexpressbk.demo.client.DataResponseClient;
 import com.citaexpressbk.demo.direccion.Direccion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,18 +28,18 @@ public class Client {
     private Boolean status;
     private String telefono;
 
-    public Client(DatosRegister datosRegister) {
-        this.nombre = datosRegister.nombre();
-        this.email = datosRegister.email();
-        this.documento = datosRegister.documento();
-        this.direccion = new Direccion(datosRegister.direccion());
-        this.status = datosRegister.status();
-        this.telefono = datosRegister.telefono();
+    public Client(DataRegisterClient dataRegisterClient) {
+        this.nombre = dataRegisterClient.nombre();
+        this.email = dataRegisterClient.email();
+        this.documento = dataRegisterClient.documento();
+        this.direccion = new Direccion(dataRegisterClient.direccion());
+        this.status = dataRegisterClient.status();
+        this.telefono = dataRegisterClient.telefono();
 
 
     }
 
-    public void actualizarDatos(DatosRespuestaClient datosActualizarCliente) {
+    public void actualizarDatos(DataResponseClient datosActualizarCliente) {
         if (datosActualizarCliente.nombre()!= null){
             this.nombre =datosActualizarCliente.nombre();
         }

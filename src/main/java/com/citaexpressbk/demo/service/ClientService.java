@@ -2,6 +2,7 @@ package com.citaexpressbk.demo.service;
 
 import com.citaexpressbk.demo.client.*;
 import com.citaexpressbk.demo.direccion.DatosDireccion;
+import com.citaexpressbk.demo.domain.entity.Client;
 import com.citaexpressbk.demo.service.interfaces.IClientService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,30 +21,30 @@ public class ClientService implements IClientService {
     }
 
     @Override
-    public DatosRespuestaClient registerClient(DatosRegister datosRegister) {
-        Client client = clientRepository.save(new Client(datosRegister));
-        return new DatosRespuestaClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
+    public DataResponseClient registerClient(DataRegisterClient dataRegisterClient) {
+        Client client = clientRepository.save(new Client(dataRegisterClient));
+        return new DataResponseClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
                 new DatosDireccion(client.getDireccion().getCalle(), client.getDireccion().getCiudad(), client.getDireccion().getDistrito()), client.getTelefono());
     }
 
     @Override
-    public Page<DatosListadoClient> listadoClients(Pageable pageable) {
-        return clientRepository.findByStatusTrue(pageable).map(DatosListadoClient::new);
+    public Page<DataListClient> listadoClients(Pageable pageable) {
+        return clientRepository.findByStatusTrue(pageable).map(DataListClient::new);
     }
 
     @Override
-    public DatosRespuestaClient getClientById(Long id) {
+    public DataResponseClient getClientById(Long id) {
         Client client = clientRepository.getReferenceById(id);
-        return new DatosRespuestaClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
+        return new DataResponseClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
                 new DatosDireccion(client.getDireccion().getCalle(), client.getDireccion().getCiudad(), client.getDireccion().getDistrito()), client.getTelefono());
     }
 
     @Override
     @Transactional
-    public DatosRespuestaClient updateClient(DatosRespuestaClient datosActualizarCliente) {
+    public DataResponseClient updateClient(DataResponseClient datosActualizarCliente) {
         Client client = clientRepository.getReferenceById(datosActualizarCliente.id());
         client.actualizarDatos(datosActualizarCliente);
-        return new DatosRespuestaClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
+        return new DataResponseClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
                 new DatosDireccion(client.getDireccion().getCalle(), client.getDireccion().getCiudad(), client.getDireccion().getDistrito()), client.getTelefono());
     }
 

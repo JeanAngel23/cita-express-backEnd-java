@@ -1,20 +1,20 @@
 package com.citaexpressbk.demo.service.interfaces;
 
-import com.citaexpressbk.demo.client.DatosListadoClient;
-import com.citaexpressbk.demo.client.DatosRegister;
-import com.citaexpressbk.demo.client.DatosRespuestaClient;
+import com.citaexpressbk.demo.client.DataListClient;
+import com.citaexpressbk.demo.client.DataRegisterClient;
+import com.citaexpressbk.demo.client.DataResponseClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IClientService {
 
-    DatosRespuestaClient registerClient(DatosRegister datosRegister);
+    DataResponseClient registerClient(DataRegisterClient dataRegisterClient);
 
-    Page<DatosListadoClient> listadoClients(Pageable pageable);
+    Page<DataListClient> listadoClients(Pageable pageable);
 
-    DatosRespuestaClient getClientById(Long id);
+    DataResponseClient getClientById(Long id);
 
-    DatosRespuestaClient updateClient(DatosRespuestaClient datosActualizarCliente);
+    DataResponseClient updateClient(DataResponseClient datosActualizarCliente);
 
     void desactivarClient(Long id);
 }

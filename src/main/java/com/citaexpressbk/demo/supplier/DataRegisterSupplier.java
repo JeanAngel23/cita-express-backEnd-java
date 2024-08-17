@@ -7,21 +7,21 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record DatosRegistroSupplier(@NotBlank(message = "El nombre del usuario es obligatorio")
+public record DataRegisterSupplier(@NotBlank(message = "El nombre del usuario es obligatorio")
                                     String nombre,
-                                    @NotBlank
+                                   @NotBlank
                                     @Email
                                     String email,
-                                    @NotBlank(message = "El numero de documento es obligatorio")
+                                   @NotBlank(message = "El numero de documento es obligatorio")
                                     @Pattern(regexp = "\\d{6,12}")
                                     String documento,
-                                    @NotNull
+                                   @NotNull
                                     @Valid
                                     DatosDireccion direccion,
-                                    Boolean status,
-                                    @NotBlank
+                                   Boolean status,
+                                   @NotBlank
                                     @Pattern(regexp = "\\d{6,12}")
                                     String telefono,
-                                    @NotNull
+                                   @NotNull
                                     Service service) {
 }
