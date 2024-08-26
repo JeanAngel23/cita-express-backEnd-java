@@ -5,7 +5,6 @@ import com.citaexpressbk.demo.domain.entity.Supplier;
 import com.citaexpressbk.demo.service.interfaces.ISupplierService;
 import com.citaexpressbk.demo.supplier.*;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +43,7 @@ public class SupplierService implements ISupplierService {
 
     @Override
     @Transactional
-    public DataResponseSupplier actualizarSupplier(@Valid DataUpdateSupplier dataUpdateSupplier) {
+    public DataResponseSupplier updateSupplier(DataUpdateSupplier dataUpdateSupplier) {
         Supplier supplier = supplierRepository.getReferenceById(dataUpdateSupplier.id());
         supplier.actualizarDatos(dataUpdateSupplier);
         return new DataResponseSupplier(supplier.getId(), supplier.getNombre(),supplier.getEmail(),supplier.getTelefono(),supplier.getDocumento(),
@@ -56,9 +55,10 @@ public class SupplierService implements ISupplierService {
     public void desactivarSupplier(Long id) {
         Supplier supplier = supplierRepository.getReferenceById(id);
         supplier.desactivarSupplier();
-
     }
+
 }
+
 
 
 
