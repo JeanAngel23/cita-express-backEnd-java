@@ -1,9 +1,9 @@
 package com.citaexpressbk.demo.service.interfaces;
 
-import com.citaexpressbk.demo.supplier.DataUpdateSupplier;
-import com.citaexpressbk.demo.supplier.DataListSupplier;
-import com.citaexpressbk.demo.supplier.DataRegisterSupplier;
-import com.citaexpressbk.demo.supplier.DataResponseSupplier;
+import com.citaexpressbk.demo.domain.dto.DataUpdateSupplier;
+import com.citaexpressbk.demo.domain.dto.DataListSupplier;
+import com.citaexpressbk.demo.domain.dto.DataRegisterSupplier;
+import com.citaexpressbk.demo.domain.dto.DataResponseSupplier;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

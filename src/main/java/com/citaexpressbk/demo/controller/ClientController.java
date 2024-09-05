@@ -1,6 +1,8 @@
 package com.citaexpressbk.demo.controller;
 
-import com.citaexpressbk.demo.client.*;
+import com.citaexpressbk.demo.domain.dto.DataListClient;
+import com.citaexpressbk.demo.domain.dto.DataRegisterClient;
+import com.citaexpressbk.demo.domain.dto.DataResponseClient;
 import com.citaexpressbk.demo.service.interfaces.IClientService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -48,8 +50,8 @@ public class ClientController {
     //Retornar actualizacion al cliente
     @PutMapping("/{id}")
     public ResponseEntity<DataResponseClient> actualizarCliente(@PathVariable Long id, @RequestBody @Valid DataResponseClient datosActualizarCliente) {
-        datosActualizarCliente = new DataResponseClient(id, datosActualizarCliente.nombre(), datosActualizarCliente.email(), datosActualizarCliente.documento(),
-                datosActualizarCliente.direccion(), datosActualizarCliente.telefono());
+        datosActualizarCliente = new DataResponseClient(id, datosActualizarCliente.name(), datosActualizarCliente.email(), datosActualizarCliente.document(),
+                datosActualizarCliente.address(), datosActualizarCliente.phone());
         DataResponseClient clienteActualizado = clientService.updateClient(datosActualizarCliente);
         return ResponseEntity.ok(clienteActualizado);
     }

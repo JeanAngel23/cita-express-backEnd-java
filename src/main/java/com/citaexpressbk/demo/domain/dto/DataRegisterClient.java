@@ -1,6 +1,6 @@
-package com.citaexpressbk.demo.client;
+package com.citaexpressbk.demo.domain.dto;
 
-import com.citaexpressbk.demo.direccion.DatosDireccion;
+import com.citaexpressbk.demo.address.DatosDireccion;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,19 +9,21 @@ import jakarta.validation.constraints.Pattern;
 
 public record DataRegisterClient(
         @NotBlank(message = "El nombre del usuario es obligatorio")
-        String nombre,
+        String name,
         @NotBlank
         @Email
         String email,
         @NotBlank(message = "El numero de documento es obligatorio")
         @Pattern(regexp = "\\d{6,12}")
-        String documento,
+        String document,
         @NotNull
         @Valid
-        DatosDireccion direccion,
+        DatosDireccion direccion,//posible error validar
         Boolean status,
         @NotBlank
         @Pattern(regexp = "\\d{6,12}")
-        String telefono
+        String phone,
+        @NotBlank
+        String city
 ) {
 }

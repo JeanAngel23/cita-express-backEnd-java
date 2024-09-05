@@ -1,4 +1,4 @@
-package com.citaexpressbk.demo.client;
+package com.citaexpressbk.demo.repository;
 
 import com.citaexpressbk.demo.domain.entity.Client;
 import org.springframework.data.domain.Page;

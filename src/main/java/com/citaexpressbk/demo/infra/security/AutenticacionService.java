@@ -1,6 +1,6 @@
 package com.citaexpressbk.demo.infra.security;
 
-import com.citaexpressbk.demo.client.users.UsuarioRepository;
+import com.citaexpressbk.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +15,6 @@ public class AutenticacionService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByLogin(username);
+        return usuarioRepository.findByUsername(username);
     }
 }

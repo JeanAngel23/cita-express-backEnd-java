@@ -1,0 +1,6 @@
+CREATE TABLE UserRoles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+INSERT INTO UserRoles (role_name) VALUES ('CLIENT'), ('SUPPLIER');

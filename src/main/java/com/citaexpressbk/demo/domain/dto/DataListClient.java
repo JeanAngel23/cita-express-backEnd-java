@@ -1,15 +1,15 @@
-package com.citaexpressbk.demo.client;
+package com.citaexpressbk.demo.domain.dto;
 
 import com.citaexpressbk.demo.domain.entity.Client;
 
 public record DataListClient(
         Long id,
-        String nombre,
+        String name,
         String email
 
 
 ) {
 public DataListClient(Client client){
-this(client.getId(), client.getNombre(), client.getEmail());
+this(client.getId(), client.getName(), client.getEmail());
 }
 }

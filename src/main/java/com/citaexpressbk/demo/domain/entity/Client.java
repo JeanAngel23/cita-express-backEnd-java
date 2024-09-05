@@ -1,16 +1,16 @@
 package com.citaexpressbk.demo.domain.entity;
 
-import com.citaexpressbk.demo.client.DataRegisterClient;
-import com.citaexpressbk.demo.client.DataResponseClient;
-import com.citaexpressbk.demo.direccion.Direccion;
+import com.citaexpressbk.demo.domain.dto.DataRegisterClient;
+import com.citaexpressbk.demo.domain.dto.DataResponseClient;
+import com.citaexpressbk.demo.address.Direccion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name= "client")
-@Entity(name = "client")
+@Table(name= "Clients")
+@Entity(name = "Client")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,37 +20,38 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
+    private String name;
     private String email;
-    private String documento;
+    private String document;
     @Embedded
     private Direccion direccion;
     private Boolean status;
-    private String telefono;
+    private String phone;
+
 
     public Client(DataRegisterClient dataRegisterClient) {
-        this.nombre = dataRegisterClient.nombre();
+        this.name = dataRegisterClient.name();
         this.email = dataRegisterClient.email();
-        this.documento = dataRegisterClient.documento();
+        this.document = dataRegisterClient.document();
         this.direccion = new Direccion(dataRegisterClient.direccion());
         this.status = dataRegisterClient.status();
-        this.telefono = dataRegisterClient.telefono();
+        this.phone = dataRegisterClient.phone();
 
 
     }
 
     public void actualizarDatos(DataResponseClient datosActualizarCliente) {
-        if (datosActualizarCliente.nombre()!= null){
-            this.nombre =datosActualizarCliente.nombre();
+        if (datosActualizarCliente.name()!= null){
+            this.name =datosActualizarCliente.name();
         }
         if (datosActualizarCliente.email() != null){
             this.email = datosActualizarCliente.email();
         }
-        if (datosActualizarCliente.telefono() != null){
-            this.telefono = datosActualizarCliente.telefono();
+        if (datosActualizarCliente.phone() != null){
+            this.phone = datosActualizarCliente.phone();
         }
-        if (datosActualizarCliente.direccion() != null){
-            this.direccion = direccion.actualizarDireccion(datosActualizarCliente.direccion());
+        if (datosActualizarCliente.address() != null){
+            this.direccion = direccion.actualizarDireccion(datosActualizarCliente.address());
         }
 
     }

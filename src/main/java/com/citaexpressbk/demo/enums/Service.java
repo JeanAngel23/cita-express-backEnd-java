@@ -1,4 +1,4 @@
-package com.citaexpressbk.demo.supplier;
+package com.citaexpressbk.demo.enums;
 
 public enum Service {
     BARBERIA,

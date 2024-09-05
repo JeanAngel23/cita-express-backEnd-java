@@ -1,7 +1,10 @@
 package com.citaexpressbk.demo.controller;
 
+import com.citaexpressbk.demo.domain.dto.DataListSupplier;
+import com.citaexpressbk.demo.domain.dto.DataRegisterSupplier;
+import com.citaexpressbk.demo.domain.dto.DataResponseSupplier;
+import com.citaexpressbk.demo.domain.dto.DataUpdateSupplier;
 import com.citaexpressbk.demo.service.interfaces.ISupplierService;
-import com.citaexpressbk.demo.supplier.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +48,7 @@ public class SupplierController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DataResponseSupplier> actualizarSupplier(@PathVariable Long id, @RequestBody @Valid DataUpdateSupplier dataUpdateSupplier) {
-        dataUpdateSupplier = new DataUpdateSupplier(id, dataUpdateSupplier.nombre(), dataUpdateSupplier.email(), dataUpdateSupplier.telefono(),
+        dataUpdateSupplier = new DataUpdateSupplier(id,
                 dataUpdateSupplier.service(), dataUpdateSupplier.direccion());
         DataResponseSupplier supplierActualizado = supplierService.updateSupplier(dataUpdateSupplier);
         return ResponseEntity.ok(supplierActualizado);

@@ -1,4 +1,4 @@
-package com.citaexpressbk.demo.client.users;
+package com.citaexpressbk.demo.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 //tener en cuenta nombre de la carpeta, si no cambiar
-@Table(name= "users")
+@Table(name= "Users")
 @Entity(name = "Usuario")
 @Getter
 @NoArgsConstructor
@@ -22,8 +22,19 @@ public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private  String login;
-    private String clave;
+
+    @Column(name = "username", unique = true, nullable = false)
+    private  String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @ManyToOne(fetch = FetchType.EAGER) // FetchType.EAGER para cargar la relación junto con la entidad Usuario
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private UserRole role;  // Nombre de la entidad relacionada, asegúrate de tener esta clase definida.
+
+    @Column(name = "created_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private String createdAt;
 
 
     @Override
@@ -33,12 +44,12 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return clave;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return login;
+        return username;
     }
 
     @Override

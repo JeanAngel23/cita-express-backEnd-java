@@ -1,9 +1,13 @@
 package com.citaexpressbk.demo.service;
 
-import com.citaexpressbk.demo.direccion.DatosDireccion;
+import com.citaexpressbk.demo.address.DatosDireccion;
+import com.citaexpressbk.demo.domain.dto.DataListSupplier;
+import com.citaexpressbk.demo.domain.dto.DataRegisterSupplier;
+import com.citaexpressbk.demo.domain.dto.DataResponseSupplier;
+import com.citaexpressbk.demo.domain.dto.DataUpdateSupplier;
 import com.citaexpressbk.demo.domain.entity.Supplier;
 import com.citaexpressbk.demo.service.interfaces.ISupplierService;
-import com.citaexpressbk.demo.supplier.*;
+import com.citaexpressbk.demo.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,9 +27,8 @@ public class SupplierService implements ISupplierService {
     @Override
     public DataResponseSupplier registrarSupplier(DataRegisterSupplier dataRegisterSupplier) {
         Supplier supplier = supplierRepository.save(new Supplier(dataRegisterSupplier));
-        return new DataResponseSupplier(supplier.getId(), supplier.getNombre(),supplier.getEmail(),supplier.getTelefono(),supplier.getDocumento(),
-                supplier.getService().toString(),
-                new DatosDireccion(supplier.getDireccion().getCalle(), supplier.getDireccion().getCiudad(), supplier.getDireccion().getDistrito()));
+        return new DataResponseSupplier(supplier.getId(), supplier.getNit(),supplier.getService().toString(),
+                new DatosDireccion(supplier.getDireccion().getAddress(), supplier.getDireccion().getCity()));
     }
 
     @Override
@@ -36,9 +39,9 @@ public class SupplierService implements ISupplierService {
     @Override
     public DataResponseSupplier retornarSupplier(Long id) {
         Supplier supplier = supplierRepository.getReferenceById(id);
-        return new DataResponseSupplier(supplier.getId(), supplier.getNombre(),supplier.getEmail(),supplier.getTelefono(),supplier.getDocumento(),
+        return new DataResponseSupplier(supplier.getId(),supplier.getNit(),
                 supplier.getService().toString(),
-                new DatosDireccion(supplier.getDireccion().getCalle(), supplier.getDireccion().getCiudad(), supplier.getDireccion().getDistrito()));
+                new DatosDireccion(supplier.getDireccion().getAddress(), supplier.getDireccion().getCity()));
     }
 
     @Override
@@ -46,9 +49,9 @@ public class SupplierService implements ISupplierService {
     public DataResponseSupplier updateSupplier(DataUpdateSupplier dataUpdateSupplier) {
         Supplier supplier = supplierRepository.getReferenceById(dataUpdateSupplier.id());
         supplier.actualizarDatos(dataUpdateSupplier);
-        return new DataResponseSupplier(supplier.getId(), supplier.getNombre(),supplier.getEmail(),supplier.getTelefono(),supplier.getDocumento(),
+        return new DataResponseSupplier(supplier.getId(),supplier.getNit(),
                 supplier.getService().toString(),
-                new DatosDireccion(supplier.getDireccion().getCalle(), supplier.getDireccion().getCiudad(),supplier.getDireccion().getDistrito()));
+                new DatosDireccion(supplier.getDireccion().getAddress(), supplier.getDireccion().getCity()));
     }
 
     @Override

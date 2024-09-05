@@ -1,1 +1,0 @@
-alter table client add telefono varchar(20) not null;

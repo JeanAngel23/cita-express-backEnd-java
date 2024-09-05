@@ -1,7 +1,7 @@
 package com.citaexpressbk.demo.controller;
 
-import com.citaexpressbk.demo.client.users.DatosAutenticacionUsuario;
-import com.citaexpressbk.demo.client.users.Usuario;
+import com.citaexpressbk.demo.domain.dto.DataAutenticationUser;
+import com.citaexpressbk.demo.domain.entity.Usuario;
 import com.citaexpressbk.demo.infra.security.DatosJWT;
 import com.citaexpressbk.demo.infra.security.TokenService;
 import jakarta.validation.Valid;
@@ -26,9 +26,9 @@ public class AuthenticationController {
     private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datosAutenticacionUsuario){
-        Authentication authToken = new UsernamePasswordAuthenticationToken(datosAutenticacionUsuario.login(),
-                datosAutenticacionUsuario.clave());
+    public ResponseEntity autenticarUsuario(@RequestBody @Valid DataAutenticationUser dataAutenticationUser){
+        Authentication authToken = new UsernamePasswordAuthenticationToken(dataAutenticationUser.username(),
+                dataAutenticationUser.password());
         var usuarioAuth = authenticationManager.authenticate(authToken);
         var JWTtoken = tokenService.generarToken((Usuario) usuarioAuth.getPrincipal());
         return ResponseEntity.ok(new DatosJWT(JWTtoken));
