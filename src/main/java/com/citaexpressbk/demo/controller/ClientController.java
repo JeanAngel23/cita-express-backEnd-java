@@ -1,10 +1,12 @@
 package com.citaexpressbk.demo.controller;
 
-import com.citaexpressbk.demo.client.*;
-import com.citaexpressbk.demo.direccion.DatosDireccion;
+import com.citaexpressbk.demo.domain.dto.DataListClient;
+import com.citaexpressbk.demo.domain.dto.DataRegisterClient;
+import com.citaexpressbk.demo.domain.dto.DataResponseClient;
+import com.citaexpressbk.demo.service.interfaces.IClientService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,49 +22,44 @@ import java.net.URI;
 @SecurityRequirement(name = "bearer-key")
 public class ClientController {
 
-    private final ClientRepository clientRepository;
+    private final IClientService clientService;
 
-    public ClientController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
+    @Autowired
+    public ClientController(IClientService clientService) {
+        this.clientService = clientService;
     }
     @PostMapping
-    public ResponseEntity <DatosRespuestaClient>registerClient(@RequestBody @Valid DatosRegister datosRegister, UriComponentsBuilder uriComponentsBuilder ){
-        Client client = clientRepository.save(new Client(datosRegister));
-        DatosRespuestaClient datosRespuestaClient = new DatosRespuestaClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
-                new DatosDireccion(client.getDireccion().getCalle(), client.getDireccion().getCiudad(), client.getDireccion().getDistrito()),client.getTelefono());
-        URI url = uriComponentsBuilder.path("/client/{id}").buildAndExpand(client.getId()).toUri();
-        return ResponseEntity.created(url).body(datosRespuestaClient);
+    public ResponseEntity<DataResponseClient> registerClient(@RequestBody @Valid DataRegisterClient dataRegisterClient, UriComponentsBuilder uriComponentsBuilder) {
+        DataResponseClient dataResponseClient = clientService.registerClient(dataRegisterClient);
+        URI url = uriComponentsBuilder.path("/clients/{id}").buildAndExpand(dataResponseClient.id()).toUri();
+        return ResponseEntity.created(url).body(dataResponseClient);
     }
 
     @GetMapping
-    public ResponseEntity<Page<DatosListadoClient>>listadoClients(@PageableDefault(size = 12, sort = "nombre", direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok(clientRepository.findByStatusTrue(pageable).map(DatosListadoClient::new));
-        //Cambiar por Status una vez creada la tabla con FLYw
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<DatosRespuestaClient> retornandoCliente(@PathVariable Long id){
-        Client client =clientRepository.getReferenceById(id);
-        var datosCliente = new DatosRespuestaClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
-                new DatosDireccion(client.getDireccion().getCalle(), client.getDireccion().getCiudad(), client.getDireccion().getDistrito()),client.getTelefono());
-        return ResponseEntity.ok(datosCliente);
+    public ResponseEntity<Page<DataListClient>> listadoClients(@PageableDefault(size = 12, sort = "nombre", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<DataListClient> clientes = clientService.listadoClients(pageable);
+        return ResponseEntity.ok(clientes);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DataResponseClient> retornandoCliente(@PathVariable Long id) {
+        DataResponseClient datosCliente = clientService.getClientById(id);
+        return ResponseEntity.ok(datosCliente);
+    }//Cambiar por status en FlyWay
+
     //Retornar actualizacion al cliente
-    @PutMapping
-    @Transactional
-    public ResponseEntity actualizarCliente(@RequestBody @Valid DatosRespuestaClient datosActualizarCliente) {
-        Client client = clientRepository.getReferenceById(datosActualizarCliente.id());
-        client.actualizarDatos(datosActualizarCliente);
-        return ResponseEntity.ok(new DatosRespuestaClient(client.getId(), client.getNombre(), client.getEmail(), client.getDocumento(),
-                new DatosDireccion(client.getDireccion().getCalle(), client.getDireccion().getCiudad(), client.getDireccion().getDistrito()), client.getTelefono()));
+    @PutMapping("/{id}")
+    public ResponseEntity<DataResponseClient> actualizarCliente(@PathVariable Long id, @RequestBody @Valid DataResponseClient datosActualizarCliente) {
+        datosActualizarCliente = new DataResponseClient(id, datosActualizarCliente.name(), datosActualizarCliente.email(), datosActualizarCliente.document(),
+                datosActualizarCliente.address(), datosActualizarCliente.phone());
+        DataResponseClient clienteActualizado = clientService.updateClient(datosActualizarCliente);
+        return ResponseEntity.ok(clienteActualizado);
     }
 
     //Delete Logico
     @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity desactivarClient(@PathVariable Long id){
-        Client client = clientRepository.getReferenceById(id);
-        client.desactivarClient();
+    public ResponseEntity<Void> desactivarClient(@PathVariable Long id) {
+        clientService.desactivarClient(id);
         return ResponseEntity.noContent().build();
     }
 

@@ -1,6 +1,6 @@
 package com.citaexpressbk.demo.infra.security;
 
-import com.citaexpressbk.demo.client.users.UsuarioRepository;
+import com.citaexpressbk.demo.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             var subject = tokenService.getSubject(token);
 
             if (subject != null) {
-                var user = usuarioRepository.findByLogin(subject);
+                var user = usuarioRepository.findByUsername(subject);
                 if (user != null) {
                     var autenticacion = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(autenticacion);
