@@ -1,4 +1,4 @@
-CREATE TABLE Clients (
+CREATE TABLE clients (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     name VARCHAR(100) NOT NULL,
@@ -10,6 +10,6 @@ CREATE TABLE Clients (
     city_id INT,
     status VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(id),
-    FOREIGN KEY (city_id) REFERENCES Cities(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (city_id) REFERENCES cities(id)
 );

@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-@Entity
-@Table(name = "UserRoles") // Asegúrate de que el nombre de la tabla coincide con el nombre en la base de datos
+@Entity(name = "UserRole")
+@Table(name = "user_roles") // Asegúrate de que el nombre de la tabla coincide con el nombre en la base de datos
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +17,6 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", unique = true, nullable = false)
-    private String name; // Ejemplo: "USER", "ADMIN"
+    @Column(name = "role_name", unique = true, nullable = false)
+    private String role_name; // Ejemplo: "USER", "ADMIN"
 }

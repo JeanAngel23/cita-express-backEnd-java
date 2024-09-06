@@ -1,4 +1,4 @@
-CREATE TABLE Suppliers (
+CREATE TABLE suppliers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     client_id INT,
     nit VARCHAR(50) NOT NULL,
@@ -8,6 +8,6 @@ CREATE TABLE Suppliers (
     city_id INT,
     status TINYINT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (client_id) REFERENCES Clients(id),
-    FOREIGN KEY (city_id) REFERENCES Cities(id)
+    FOREIGN KEY (client_id) REFERENCES clients(id),
+    FOREIGN KEY (city_id) REFERENCES cities(id)
 );

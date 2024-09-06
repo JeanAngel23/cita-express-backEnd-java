@@ -8,11 +8,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
 //tener en cuenta nombre de la carpeta, si no cambiar
-@Table(name= "Users")
+@Table(name= "users")
 @Entity(name = "Usuario")
 @Getter
 @NoArgsConstructor
@@ -33,13 +34,12 @@ public class Usuario implements UserDetails {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private UserRole role;  // Nombre de la entidad relacionada, asegúrate de tener esta clase definida.
 
-    @Column(name = "created_at", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private String createdAt;
-
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private LocalDateTime createdAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority(role.getRole_name()));
     }
 
     @Override
