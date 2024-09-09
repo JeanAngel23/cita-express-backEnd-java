@@ -23,21 +23,24 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf(csrf->csrf.disable())
-                .sessionManagement((sess-> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)))
-                .authorizeHttpRequests((request -> request.requestMatchers(HttpMethod.POST,"/login")
-                        .permitAll()
-                        .anyRequest().authenticated()))
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity
+                .csrf(csrf -> csrf.disable()) // Desactivar CSRF (ya que usas JWT)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // No sesiones, solo JWT
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll() // Permitir el acceso a /login sin autenticación
+                        .anyRequest().authenticated() // Cualquier otra petición necesita autenticación
+                )
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); // Agregar tu filtro de seguridad
         return httpSecurity.build();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // Usar BCrypt para codificar contraseñas
     }
 }
