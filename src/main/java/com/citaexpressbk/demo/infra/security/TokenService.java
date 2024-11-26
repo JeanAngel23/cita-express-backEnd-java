@@ -8,46 +8,69 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.citaexpressbk.demo.domain.entity.Usuario;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.GrantedAuthority;
+
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Service
 public class TokenService {
 
-
     @Value("${api.security.secret}")
     private String apiSecret;
-    public String generarToken(Usuario usuario){
-        String token = null;
+
+    // Método para generar un token basado en UserDetails
+    public String generarToken(UserDetails userDetails) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret);
-            token = JWT.create()
-                    .withIssuer("foro hub")
-                    .withSubject(usuario.getUsername())
-                    .withClaim("id", usuario.getId())
+
+            // Extraer el nombre de usuario (subject) desde UserDetails
+            String username = userDetails.getUsername();
+
+            // Incluir roles como una claim (si es necesario)
+            return JWT.create()
+                    .withIssuer("citaexpress")
+                    .withSubject(username)
+                    // Cambiar toList() por Collectors.toList()
+                    .withClaim("roles", userDetails.getAuthorities().stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .collect(Collectors.toList())) // Cambiado aquí
                     .withExpiresAt(generarExpiracion())
                     .sign(algorithm);
-        } catch (JWTCreationException exception){
-            throw new RuntimeException();
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Error al crear el token", exception);
         }
-        return token;
     }
 
-    public String getSubject(String token) {
+    // Método para verificar si el token es válido
+    public boolean isValidToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret);
             JWTVerifier verifier = JWT.require(algorithm)
-                    .withIssuer("foro hub")
+                    .withIssuer("citaexpress")
                     .build();
             DecodedJWT jwt = verifier.verify(token);
 
             // Verificar si el token ha expirado
-            if (jwt.getExpiresAt().before(new Date())) {
-                throw new RuntimeException("El token ha expirado");
-            }
+            return !jwt.getExpiresAt().before(new Date());
+        } catch (JWTVerificationException exception) {
+            return false;  // El token es inválido
+        }
+    }
+
+    // Método para obtener el subject (usuario) del token
+    public String getSubject(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("citaexpress")
+                    .build();
+            DecodedJWT jwt = verifier.verify(token);
 
             return jwt.getSubject();
         } catch (JWTVerificationException exception) {
@@ -55,7 +78,10 @@ public class TokenService {
         }
     }
 
+    // Método para generar la fecha de expiración del token (2 horas)
     private Date generarExpiracion() {
-        return Date.from(LocalDateTime.now().plusHours(2).atZone(ZoneId.systemDefault()).toInstant());
+        return Date.from(LocalDateTime.now().plusHours(2)
+                .atZone(ZoneId.systemDefault()).toInstant());
     }
 }
+

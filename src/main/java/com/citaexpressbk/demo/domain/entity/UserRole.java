@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 @Entity(name = "UserRole")
-@Table(name = "user_roles") // Asegúrate de que el nombre de la tabla coincide con el nombre en la base de datos
+@Table(name = "user_roles")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,5 +18,5 @@ public class UserRole {
     private Long id;
 
     @Column(name = "role_name", unique = true, nullable = false)
-    private String role_name; // Ejemplo: "USER", "ADMIN"
+    private String roleName; // Cambiado de 'role_name' a 'roleName'
 }
